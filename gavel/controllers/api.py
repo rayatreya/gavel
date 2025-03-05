@@ -25,12 +25,13 @@ def item_dump():
 @utils.requires_auth
 def annotator_dump():
     annotators = Annotator.query.all()
-    data = [['Name', 'Email', 'Description', 'Secret']]
+    data = [['Name', 'Email', 'Description', 'Secret', 'Magic Link']]
     data += [[
         str(a.name),
         a.email,
         a.description,
-        a.secret
+        a.secret,
+        url_for('login', secret=a.secret, _external=True)
     ] for a in annotators]
     return Response(utils.data_to_csv_string(data), mimetype='text/csv')
 
